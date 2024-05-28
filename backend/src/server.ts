@@ -20,7 +20,7 @@ app.get('/api/:name', (req,res)=>{
     res.json({msg:`Hello ${req.params.name}, MY_NAME => ${process.env.MY_NAME}`})
 })
 
-// app.use(express.static(path.resolve(__dirname,'./frontend/dist')))
-// app.get('*', (req,res)=>{
-//     res.sendFile(path.resolve(__dirname, "../../frontend/dist",'index.html'))
-// })
+app.use(express.static(path.resolve(__dirname,'./frontend/frontHairdresser/dist')))
+app.get('*', (req,res)=>{
+    res.sendFile(path.resolve(__dirname, "../../frontend/frontHairdresser/dist",'index.html'))
+})

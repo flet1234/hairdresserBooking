@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
+const path_1 = __importDefault(require("path"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
@@ -19,7 +20,7 @@ app.listen(process.env.Port || 3001, () => {
 app.get('/api/:name', (req, res) => {
     res.json({ msg: `Hello ${req.params.name}, MY_NAME => ${process.env.MY_NAME}` });
 });
-// app.use(express.static(path.resolve(__dirname,'./frontend/dist')))
-// app.get('*', (req,res)=>{
-//     res.sendFile(path.resolve(__dirname, "../../frontend/dist",'index.html'))
-// })
+app.use(express_1.default.static(path_1.default.resolve(__dirname, './frontend/frontHairdresser/dist')));
+app.get('*', (req, res) => {
+    res.sendFile(path_1.default.resolve(__dirname, "../../frontend/frontHairdresser/dist", 'index.html'));
+});
