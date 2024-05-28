@@ -1,0 +1,19 @@
+{
+  "name": "final_project",
+  "version": "1.0.0",
+  "description": "hairdresser booking site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/flet1234/hairdresserBooking.git"
+  },
+  "author": "Maksim Gold",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/flet1234/hairdresserBooking/issues"
+  },
+  "homepage": "https://github.com/flet1234/hairdresserBooking#readme"
+}
