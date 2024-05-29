@@ -1,6 +1,5 @@
 export interface ConnectionInterface {
     host:string,
-    port:string,
     user:string,
     password:string,
     database:string

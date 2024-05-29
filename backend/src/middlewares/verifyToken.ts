@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction} from 'express'
 import jwt, { VerifyErrors, JwtPayload } from 'jsonwebtoken'
 import dotenv from 'dotenv'
-import { error } from 'console'
 dotenv.config()
 
 export const verifyToken = (
@@ -10,7 +9,6 @@ export const verifyToken = (
     next:NextFunction
 ) => {
     const accessToken = req.cookies.token || req.headers['x-access-token']
-    console.log('accessToken',accessToken);
     
     if(!accessToken) {
         return res.status(401).json({msg:'Unauthorized'})
@@ -20,11 +18,11 @@ export const verifyToken = (
 
     jwt.verify(accessToken,secret,(err: VerifyErrors | null, decoded: JwtPayload | string | undefined)=>{
         if(err){
-            return res.status(403).json({error: err.message, msg: 'Frobidden'})
+            return res.status(403).json({error: err.message, msg: 'Forbidden'})
         }
-        if(decoded){
-            req.user = decoded
-        }
+        // if(decoded){
+        //     req.user = decoded as JwtPayload
+        // }
         next()
     })
 }

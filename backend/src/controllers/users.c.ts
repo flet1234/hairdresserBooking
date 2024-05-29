@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserResponse, ErrorMessageInterface, UserLogin, UserRegister, UserInfo } from "../../consts";
+import { UserResponse, ErrorMessageInterface, UserLogin, UserRegister, UserInfo } from '../../types/consts';
 import { register, login, all } from "../models/users.m";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -11,18 +11,20 @@ export const _register = async (
     res: Response<UserResponse | ErrorMessageInterface>
 ) => {
     try {
+        
+        
         const {email,password,name}: UserRegister = req.body
         const lowerEmail = email.toLowerCase()
 
         const salt = bcrypt.genSaltSync(10)
-        const hashedPassword = bcrypt.hashSync(password+'',salt)
-
+        const hashedPassword = bcrypt.hashSync(password ,salt)
+        
         const newUser = await register({
             email:lowerEmail,
             password:hashedPassword,
             name:name
         })
-
+        
         res.json(newUser as UserResponse)
     } catch (error) {
         console.error("Error in controllers _register", error);
@@ -41,7 +43,8 @@ export const _login = async(
         if(!user) {
             return res.status(404).json({msg: 'Email not found'} as ErrorMessageInterface)
         }
-
+        console.log(password,user.password);
+        
         const isMatch = bcrypt.compareSync(password,user.password);
         if(!isMatch){
             return res.status(404).json({msg:'Wrong password'} as ErrorMessageInterface)

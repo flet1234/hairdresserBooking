@@ -1,17 +1,17 @@
 import { db } from "../config/db";
-import { UserRegister, UserInfo, UserLogin, UserLoginReturn } from "../../consts";
+import { UserRegister, UserInfo, UserLoginReturn } from '../../types/consts'
 
 
 // Registr new user db
 export const register = async({email,password, name}: UserRegister): Promise<UserInfo | null> => {
-
     try {
+        
         const newUser = await db.transaction(async trx =>  {
-            const [userId] = await trx('users').insert({name,email}).returning('id')
-    
-            await trx('passwords').insert({user_id:userId,hashed_password:password})
+            const [user] = await trx('users').insert({name,email}).returning('id')
+         
+            await trx('passwords').insert({user_id:user.id,hashed_password:password})
 
-            return {id:userId, email, name}
+            return {id:user.id, email, name}
         })
         return newUser
     } catch (error) {
@@ -24,11 +24,11 @@ export const register = async({email,password, name}: UserRegister): Promise<Use
 export const login = async(email: string):Promise<UserLoginReturn | null> => {
     try {
         const isUser = await db.transaction(async trx => {
-            const user = await trx('users').select('id','email').where({email}).first()
+            const user = await trx('users').select('id','email').where({email}).first()            
 
-            const userPassword = await trx('passwords').select('hashed_password').where({userId:user.id})
-
-            const selecteUser = {...user, password:userPassword}
+            const userPassword = await trx('passwords').select('hashed_password').where({user_id:user.id}).first()
+            
+            const selecteUser = {...user, password:userPassword.hashed_password}
 
             return selecteUser
         })
