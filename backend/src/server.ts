@@ -3,6 +3,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import path from 'path'
+import usersrouter from './routes/users.r'
 dotenv.config()
 
 const app = express()
@@ -16,9 +17,7 @@ app.listen(process.env.Port || 3001, () => {
     console.log(`Running on ${process.env.Port || 3001}`);   
 })
 
-app.get('/api/:name', (req,res)=>{
-    res.json({msg:`Hello ${req.params.name}, MY_NAME => ${process.env.MY_NAME}`})
-})
+app.use('/api/users', usersrouter)
 
 app.use(express.static(path.resolve(__dirname,'../../frontEnd/dist')))
 app.get('*', (req,res)=>{

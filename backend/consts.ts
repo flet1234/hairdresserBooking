@@ -1,0 +1,27 @@
+export interface ConnectionInterface {
+    host:string,
+    port:string,
+    user:string,
+    password:string,
+    database:string
+}
+
+export type UserInterface = {
+    id:number
+    email:string
+    password:string
+    name:string
+    token:string
+}
+
+export type UserLogin = Pick<UserInterface, 'email' | 'password'>
+export type UserLoginReturn = Pick<UserInterface, 'id' | 'email' | 'password'>
+export type UserRegister = Pick<UserInterface, 'email' | 'password' | 'name'>
+export type UserResponse = Pick<UserInterface, 'id' | 'email' | 'name' | 'token'>
+export type UserInfo = Pick<UserInterface, 'id' | 'email' | 'name'>
+
+export type UsersRecord = Record<string, UserInterface>
+
+export interface ErrorMessageInterface {
+    msg: string
+}
