@@ -19,7 +19,7 @@ app.listen(process.env.Port || 3001, () => {
 
 app.use('/api/users', usersrouter)
 
-app.use(express.static(path.resolve(__dirname,'../frontEnd/dist')))
+app.use(express.static(path.resolve(__dirname,'../../../frontEnd/dist')))
 app.get('*', (req,res)=>{
-    res.sendFile(path.resolve(__dirname, "../frontEnd/dist",'index.html'))
+    res.sendFile(path.resolve(__dirname, "../../../frontEnd/dist",'index.html'))
 })
