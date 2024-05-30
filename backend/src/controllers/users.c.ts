@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { UserResponse, ErrorMessageInterface, UserLogin, UserRegister, UserInfo } from '../../types/consts';
+import { UserResponse, ErrorMessageInterface, UserLogin, UserRegister, UserInfo } from '../../types/consts'
 import { register, login, all } from "../models/users.m";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
@@ -43,7 +43,6 @@ export const _login = async(
         if(!user) {
             return res.status(404).json({msg: 'Email not found'} as ErrorMessageInterface)
         }
-        console.log(password,user.password);
         
         const isMatch = bcrypt.compareSync(password,user.password);
         if(!isMatch){

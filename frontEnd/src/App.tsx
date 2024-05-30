@@ -1,33 +1,50 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import { Routes, Route } from 'react-router-dom'
+import { createContext, useState, useContext } from 'react'
+import Home from './features/Home'
+import Header from './features/Header'
+import LoginRegister from './features/LoginRegister'
+import Dashboard from './features/Dashboard'
+import Auth from './auth/Auth'
+import {AuthContextInterface, ProviderProps, UserResponse} from '../types/consts'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+export const AuthContext = createContext<AuthContextInterface | null>(null)
+
+
+const AuthProvider = ({children}:ProviderProps) => {
+  const [token, setToken] = useState<UserResponse | null>(null)
 
   return (
+    <AuthContext.Provider value={{token, setToken}}>
+      {children}
+    </AuthContext.Provider>
+  )
+}
+
+export const useAuthContext = (): AuthContextInterface => {
+  const context = useContext(AuthContext);
+  if (!context) {
+      throw new Error('useAuthContext must be used within an AuthProvider');
+  }
+  return context;
+}
+
+function App() {
+  
+  return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <AuthProvider>
+        <div>
+          <Header/>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/login' element={<LoginRegister page={'login'}/>}/>
+            <Route path='/register' element={<LoginRegister page={'register'}/>}/>
+            <Route path='/dashboard' element={<Auth><Dashboard/></Auth>}/>
+          </Routes>
+        </div>
+      </AuthProvider>
     </>
   )
 }
