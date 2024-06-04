@@ -52,14 +52,21 @@ export const _login = async(
         const {id:userId,email:userEmail} = user
         const secret = process.env.ACCESS_TOKEN_SECRET || '19MynameisMaksim91'
 
-        const accessToken:string = jwt.sign({userId, userEmail}, secret, {expiresIn: '60s'})
+        const accessToken:string = jwt.sign({userId, userEmail}, secret, {expiresIn: '1h'})
+        const refreshToken = jwt.sign({userId, userEmail}, secret ,{expiresIn: '7d'})
 
         res.cookie('token', accessToken, {
-            maxAge: 60*1000,
+            maxAge: 60*60*1000,
             httpOnly:true
         })
 
-        res.json({
+        res.cookie('refreshToken', refreshToken, {
+            maxAge:7*24*60*60*1000,
+            httpOnly:true
+        })
+
+        res.json(<UserResponse>{
+            refreshToken:refreshToken,
             token:accessToken,
             id:userId,
             email:userEmail,

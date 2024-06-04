@@ -16,15 +16,15 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
 
     const navigate = useNavigate()
     const loginRegister = async() => {
-        // 'http://localhost:3001/api/users/login'
+        // 'https://hairdresserbooking.onrender.com/api/users/login'
         if(page === 'login'){
             try {
-                const responce = await axios.post('https://hairdresserbooking.onrender.com/api/users/login', {email,password}, {withCredentials:true})
-                console.log(responce);
+                const responce = await axios.post('http://localhost:3001/api/users/login', {email,password}, {withCredentials:true})
                 
                 if(responce.status === 200){
                     setMessage('')
                     setToken(responce.data)
+                    localStorage.setItem('refreshToken',responce.data.refreshToken)
                     navigate('/')
                 }
             } catch (error) {
@@ -37,9 +37,9 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
             }
         }
         else{
-            // 'http://localhost:3001/api/users/register'
+            // 'https://hairdresserbooking.onrender.com/api/users/register'
             try {
-                const response = await axios.post('https://hairdresserbooking.onrender.com/api/users/register', {email, password , name}, {withCredentials:true})
+                const response = await axios.post('http://localhost:3001/api/users/register', {email, password , name}, {withCredentials:true})
 
                 if(response.status === 200){
                     setMessage('')

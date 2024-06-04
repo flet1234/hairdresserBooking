@@ -1,4 +1,5 @@
 import React, {ReactNode} from 'react'
+import store from '../src/store/store'
 
 export interface ConnectionInterface {
     host:string,
@@ -38,3 +39,4 @@ export interface ProviderProps {
 export interface LoginRegisterProps {
     page:string
 }
+
