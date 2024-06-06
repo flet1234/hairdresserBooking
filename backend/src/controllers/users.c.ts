@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserResponse, ErrorMessageInterface, UserLogin, UserRegister, UserInfo } from '../../types/consts'
-import { register, login, all } from "../models/users.m";
+import { register, login, all} from "../models/users.m";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'

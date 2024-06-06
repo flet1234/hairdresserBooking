@@ -49,3 +49,13 @@ export const all = async():Promise<UserInfo[]> => {
         throw new Error('Could not get all users')
     }
 }
+
+export const checkAdmin = async(email:string):Promise<boolean>=>{
+    try {
+        const {admin} = await db('users').select('admin').where({email}).first()
+        return  admin
+    } catch (error) {
+        console.error('Error models check rights', error);
+        throw new Error('Could not check rights')
+    }
+}

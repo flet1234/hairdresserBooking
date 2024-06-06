@@ -47,6 +47,8 @@ export interface ErrorMessageInterface {
 export interface AuthContextInterface {
     token: UserResponse | null
     setToken: React.Dispatch<React.SetStateAction<UserResponse | null>>
+    admin:boolean
+    setAdmin: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface ProviderProps {

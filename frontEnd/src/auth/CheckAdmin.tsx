@@ -5,31 +5,28 @@ import LoginRegister from "../features/LoginRegister";
 import {ProviderProps} from "../../types/consts";
 
 const CheckAdmin = ({children}: ProviderProps) => {
+    const [redirect,setRedirect]=useState(false)
+    const {setAdmin} = useAuthContext()
+    const email = localStorage.getItem('email')
 
-    const {token} = useAuthContext()
-    const [redirect, setRedirect] = useState(false)
-    const refreshToken = localStorage.getItem('refreshToken')
-
+    
     useEffect(() => {
         verify()
     },[])
 
     const verify = async() => {
         try {
-            const response = await axios.get(import.meta.env.VITE_API_URL+'/api/users/verify', {headers: {
-                'x-access-token': token?.token,
-                'x-refresh-token': refreshToken
-            }, withCredentials:true})
-            if(response.status === 200) setRedirect(true)
-                
-            
+            const response = await axios.post(import.meta.env.VITE_API_URL+'/api/users/verify/admin',{email})
+            if(response.status === 200){
+                setRedirect(true)
+                setAdmin(true)
+            } 
         } catch (error) {
             console.log('Not logged in');
             setRedirect(false)
         }
     }
-
-    return redirect ? children : <LoginRegister page={'login'}/>
+    return children
 }
 
-export default Auth
+export default CheckAdmin
