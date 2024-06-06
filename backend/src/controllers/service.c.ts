@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { ErrorMessageInterface, DayType, HoursInterface, DayTypeWithID} from "../../types/consts";
-import { getAllData, updateHour,saveDay, checkDay, updateDay} from "../models/service.m";
+import { getAllData, updateHour,saveDay, checkDay} from "../models/service.m";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -52,23 +52,23 @@ export const _saveDay = async(
     }
 }
 
-export const _updateDay = async(
-    req:Request<DayTypeWithID>,
-    res:Response<DayType|ErrorMessageInterface>
-) => {
-    try {
-        const {date, work ,hours, id} = req.body.dayData
-        console.log(hours);
+// export const _updateDay = async(
+//     req:Request<DayTypeWithID>,
+//     res:Response<DayType|ErrorMessageInterface>
+// ) => {
+//     try {
+//         const {date, work ,hours, id} = req.body.dayData
+//         console.log(hours);
         
-        const newDay = await updateDay(
-            {date, work, id , hours}
-        )
-        res.json(newDay as DayType)
-    } catch (error) {
-        console.error('Error in service_controllers _saveDay');
-        res.status(400).json({msg:'Something went wrong'} as ErrorMessageInterface)
-    }
-}
+//         const newDay = await updateDay(
+//             {date, work, id , hours}
+//         )
+//         res.json(newDay as DayType)
+//     } catch (error) {
+//         console.error('Error in service_controllers _saveDay');
+//         res.status(400).json({msg:'Something went wrong'} as ErrorMessageInterface)
+//     }
+// }
 
 
 export const _CheckDay = async(

@@ -12,10 +12,11 @@ export type UserInterface = {
     password:string
     name:string
     token:string
+    admin:boolean
 }
 
 export type UserLogin = Pick<UserInterface, 'email' | 'password'>
-export type UserLoginReturn = Pick<UserInterface, 'id' | 'email' | 'password'>
+export type UserLoginReturn = Pick<UserInterface, 'id' | 'email' | 'password' | 'admin'>
 export type UserRegister = Pick<UserInterface, 'email' | 'password' | 'name'>
 export type UserResponse = Pick<UserInterface, 'id' | 'email' | 'name' | 'token'>
 export type UserInfo = Pick<UserInterface, 'id' | 'email' | 'name'>

@@ -24,7 +24,7 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
                 if(responce.status === 200){
                     setMessage('')
                     setToken(responce.data)
-                    localStorage.setItem('refreshToken',responce.data.refreshToken)
+                    localStorage.setItem('refreshToken', responce.data.refreshToken)
                     navigate('/')
                 }
             } catch (error) {

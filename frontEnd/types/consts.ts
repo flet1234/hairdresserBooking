@@ -13,6 +13,7 @@ export type UserInterface = {
     password:string
     name:string
     token:string
+    admin:boolean
 }
 
 export type DayTypeWithID = {
@@ -34,7 +35,7 @@ export interface Hours {
 export type UserLogin = Pick<UserInterface, 'email' | 'password'>
 export type UserLoginReturn = Pick<UserInterface, 'id' | 'email' | 'password'>
 export type UserRegister = Pick<UserInterface, 'email' | 'password' | 'name'>
-export type UserResponse = Pick<UserInterface, 'id' | 'email' | 'name' | 'token'>
+export type UserResponse = Pick<UserInterface, 'id' | 'email' | 'name' | 'token' | 'admin'>
 export type UserInfo = Pick<UserInterface, 'id' | 'email' | 'name'>
 
 export type UsersRecord = Record<string, UserInterface>

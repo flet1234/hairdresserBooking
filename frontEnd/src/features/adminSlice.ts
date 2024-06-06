@@ -50,22 +50,31 @@ export const getAllData = createAsyncThunk('days/getAllData', async() => {
     }
 })
 
+// export const saveDay = createAsyncThunk('days/saveDay', async(dayData:DayType,) => {
+//     try {
+//         const date = dayData.date
+//         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/service/data`,{date})
+//         console.log(res.data);
+//         if(res.data.length > 0){
+//             const id=res.data[0].id
+//             const dayDataWithId = {...dayData, id}
+//             console.log(dayDataWithId); 
+//             const res2 = await axios.put(`${import.meta.env.VITE_API_URL}/api/service/saveday`, {dayData})
+//             console.log(res2.data);
+//         } else {
+//             const res3 = await axios.post(`${import.meta.env.VITE_API_URL}/api/service/saveday`, {dayData})
+//             console.log(res3.data);
+//         }
+        
+//     } catch (error) {
+//         console.error(error);
+//     }
+// })
+
 export const saveDay = createAsyncThunk('days/saveDay', async(dayData:DayType,) => {
     try {
-        const date = dayData.date
-        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/service/data`,{date})
+        const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/service/saveday`, {dayData})
         console.log(res.data);
-        if(res.data.length > 0){
-            const id=res.data[0].id
-            const dayDataWithId = {...dayData, id}
-            console.log(dayDataWithId); 
-            const res2 = await axios.put(`${import.meta.env.VITE_API_URL}/api/service/saveday`, {dayData})
-            console.log(res2.data);
-        } else {
-            const res3 = await axios.post(`${import.meta.env.VITE_API_URL}/api/service/saveday`, {dayData})
-            console.log(res3.data);
-        }
-        
     } catch (error) {
         console.error(error);
     }
@@ -110,15 +119,13 @@ const adminSlice = createSlice({
                 state.status = 'loading'
             })
             .addCase(saveDay.fulfilled, (state) => {
-                state.message = 'Accepted'
-                state.status = 'fullfiled'
+                state.message = 'accepted'
             })
             .addCase(saveDay.rejected, (state) => {
-                state.message = 'Denied'
-                state.status = 'rejected'
+                state.message = 'denied'
             })
             .addCase(saveDay.pending, (state) => {
-                state.status = 'loading'
+                state.message= 'uploading'
             })
         }
     }

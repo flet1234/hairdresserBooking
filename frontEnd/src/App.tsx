@@ -4,10 +4,10 @@ import { createContext, useState, useContext } from 'react'
 import Home from './features/Home'
 import Header from './features/Header'
 import LoginRegister from './features/LoginRegister'
-import Dashboard from './features/Dashboard'
 import Auth from './auth/Auth'
 import {AuthContextInterface, ProviderProps, UserResponse} from '../types/consts'
 import './App.css'
+import UserBoard from './features/UserBoard'
 
 export const AuthContext = createContext<AuthContextInterface | null>(null)
 
@@ -41,7 +41,7 @@ function App() {
             <Route path='/' element={<Home/>}/>
             <Route path='/login' element={<LoginRegister page={'login'}/>}/>
             <Route path='/register' element={<LoginRegister page={'register'}/>}/>
-            <Route path='/dashboard' element={<Auth><Dashboard/></Auth>}/>
+            <Route path='/dashboard' element={<Auth><UserBoard/></Auth>}/>
           </Routes>
         </div>
       </AuthProvider>

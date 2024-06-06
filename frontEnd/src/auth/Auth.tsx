@@ -18,11 +18,12 @@ const Auth = ({children}: ProviderProps) => {
 
     const verify = async() => {
         try {
-            const response = await axios.get(import.meta.env.BACKENDURL+'/api/users/verify', {headers: {
+            const response = await axios.get(import.meta.env.VITE_API_URL+'/api/users/verify', {headers: {
                 'x-access-token': token?.token,
                 'x-refresh-token': refreshToken
             }, withCredentials:true})
             if(response.status === 200) setRedirect(true)
+                
             
         } catch (error) {
             console.log('Not logged in');

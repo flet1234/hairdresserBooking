@@ -49,11 +49,12 @@ export const _login = async(
             return res.status(404).json({msg:'Wrong password'} as ErrorMessageInterface)
         }
 
-        const {id:userId,email:userEmail} = user
+        const {id:userId,email:userEmail,admin} = user
+        
         const secret = process.env.ACCESS_TOKEN_SECRET || '19MynameisMaksim91'
 
-        const accessToken:string = jwt.sign({userId, userEmail}, secret, {expiresIn: '1h'})
-        const refreshToken = jwt.sign({userId, userEmail}, secret ,{expiresIn: '7d'})
+        const accessToken:string = jwt.sign({userId, userEmail,admin}, secret, {expiresIn: '1h'})
+        const refreshToken = jwt.sign({userId, userEmail,admin}, secret ,{expiresIn: '7d'})
 
         res.cookie('token', accessToken, {
             maxAge: 60*60*1000,
@@ -70,7 +71,7 @@ export const _login = async(
             token:accessToken,
             id:userId,
             email:userEmail,
-            name:userEmail
+            name:userEmail,
         })
     } catch (error) {
         console.error('Error in controllers _login', error);

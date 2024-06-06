@@ -24,7 +24,7 @@ export const register = async({email,password, name}: UserRegister): Promise<Use
 export const login = async(email: string):Promise<UserLoginReturn | null> => {
     try {
         const isUser = await db.transaction(async trx => {
-            const user = await trx('users').select('id','email').where({email}).first()            
+            const user = await trx('users').select('id','email','admin').where({email}).first()            
 
             const userPassword = await trx('passwords').select('hashed_password').where({user_id:user.id}).first()
             

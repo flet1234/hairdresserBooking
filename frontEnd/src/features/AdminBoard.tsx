@@ -2,25 +2,19 @@ import { useEffect,useState } from 'react';
 import { createWorkDay, toggleWorkHour, getAllData, saveDay} from './adminSlice';
 import { useAppDispatch, useAppSelector } from '../store/store';
 import { Button } from '@mui/material';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import './dashboard.css'
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { DayType } from './adminSlice';
 
-
-  
-  const DashBoard = () => {
+  const AdminBoard = () => {
 
     const [selectedDate,setSelectedDate] = useState<Date | null>(null)
     const days = useAppSelector((state)=>state.adminReducer.days)
+    const status = useAppSelector((state)=>state.adminReducer.status)
     const message = useAppSelector((state)=> state.adminReducer.message)
     const dispatch=useAppDispatch()
-    const [showOption, setShowOption] = useState('one');
 
     useEffect(()=>{
       const getData = async()=>{
@@ -36,7 +30,6 @@ import { DayType } from './adminSlice';
       }
     },[days])
 
-   
     const available_days = days.filter(day=> day.work === true).filter(day=> day.hours.some(hour=> hour.available === true)).map(day => dayjs(day.date).toDate())
     
     const booked_days = days.filter(day=> day.work === true).filter(day=> day.hours.every(hour=> !hour.available && !hour.notbooked)).map(day => dayjs(day.date).toDate())
@@ -60,9 +53,47 @@ import { DayType } from './adminSlice';
       },
     ];
 
-    const handleChange = (event: SelectChangeEvent) => {
-      setShowOption(event.target.value);
-    };
+    const loadImage = () => {
+      switch (message) {
+        case 'uploading':
+          
+          return 'Loading'
+        case 'rejected':
+          
+          return 'Error!'
+    
+        default:
+          return 'All good'
+      }
+    }
+    
+    const dayFetchLoad = () => {
+      switch (status) {
+        case 'loading':
+          
+          return 'Loading'
+        case 'rejected':
+          
+          return 'Error!'
+    
+        default:
+          return <DatePicker 
+          // custom day dla style
+          placeholderText = 'Click to select a date'
+          showIcon
+          toggleCalendarOnIconClick
+          dateFormat="dd/MM/yyyy"
+          selected={selectedDate} 
+          onChange={(date:Date)=>setSelectedDate(date)}
+          inline
+          highlightDates={highlightWithRanges}
+          // excludeDates={[
+          //   {date:new Date(),message:'Today is pidr'}
+          // ]} dal usera or filter dates
+          // selectTime
+          />
+      }
+    }
 
     const handleCreateWorkDay = () => {
         if(selectedDate){
@@ -76,43 +107,13 @@ import { DayType } from './adminSlice';
     }
 
     const filterDays = () => {
-        if(showOption === 'one'){
-            return days.filter(day=> day.date === selectedDate?.toLocaleDateString())
-        } else if (showOption === 'all'){
-            return days.filter(day => day.work === true)
-        }
-        return []
+      return days.filter(day=> day.date === selectedDate?.toLocaleDateString())
     }
 
     return (
       <>
-      <DatePicker 
-      // custom day dla style
-      placeholderText = 'Click to select a date'
-      showIcon
-      toggleCalendarOnIconClick
-      dateFormat="dd/MM/yyyy"
-      selected={selectedDate} 
-      onChange={(date:Date)=>setSelectedDate(date)}
-      inline
-      highlightDates={highlightWithRanges}
-      // excludeDates={[
-      //   {date:new Date(),message:'Today is pidr'}
-      // ]} dal usera or filter dates
-      // selectTime
-      />
-
-      {!checkDay()? <Button onClick={handleCreateWorkDay}>Create work day for this date</Button> : <Button onClick={handleCreateWorkDay}>Edit</Button>}
-      <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-        <InputLabel id="demo-simple-select-standard-label">Option</InputLabel>
-        <Select
-          value={showOption}
-          onChange={handleChange}
-          label="Show">
-          <MenuItem value={'one'}>One</MenuItem>
-          <MenuItem value={'all'}>All</MenuItem>
-        </Select>
-      </FormControl>
+      {dayFetchLoad()}
+      {!checkDay()? <Button onClick={handleCreateWorkDay}>Create work day for this date</Button> : 'Click on hour to change it from opened to closed'}
         <ul>
             {filterDays()?.map((day,index)=>(
                 <li key={index}>
@@ -122,9 +123,9 @@ import { DayType } from './adminSlice';
                
             ))}
         </ul> 
-        {message}
+        {loadImage()}
       </>
     )
   }
   
- export default DashBoard
+ export default AdminBoard
