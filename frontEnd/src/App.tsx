@@ -42,7 +42,7 @@ function App() {
           <CheckAdmin>
           <Header/>
           <Routes>
-            <Route path='/' element={<Home/>}/>
+            <Route path='/' element={<CheckAdmin><Home/></CheckAdmin>}/>
             <Route path='/login' element={<LoginRegister page={'login'}/>}/>
             <Route path='/register' element={<LoginRegister page={'register'}/>}/>
             <Route path='/dashboard' element={<Auth><UserBoard/></Auth>}/>
