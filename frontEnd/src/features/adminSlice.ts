@@ -19,13 +19,15 @@ export type DayType = {
 interface State {
     days:DayType[],
     status:string,
-    message:string
+    message:string,
+    isAdmin:boolean
 }
 
 const initialState:State = {
     days:[],
     status:'',
-    message:''
+    message:'',
+    isAdmin:false
 }
 
 const generateHours = (): Hours[] => {
@@ -104,6 +106,9 @@ const adminSlice = createSlice({
                     hour.available = !hour.available
                 }
             }
+        },
+        toggleAdmin: (state,action:PayloadAction<boolean>) => {
+            state.isAdmin = action.payload
         }
         },
         extraReducers(builder){
@@ -131,5 +136,5 @@ const adminSlice = createSlice({
     }
 )
 
-export const {createWorkDay, toggleWorkHour} = adminSlice.actions
+export const {createWorkDay, toggleWorkHour, toggleAdmin} = adminSlice.actions
 export default adminSlice.reducer

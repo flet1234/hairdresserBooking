@@ -15,5 +15,19 @@ router.get('/verify', verifyToken , (req, res) =>{
 router.post('/verify/admin', verifyRights , (req, res) =>{
     res.sendStatus(200)
 })
+router.get('/logout', (req,res)=>{
 
+    res.cookie('token', '2', {
+        expires:new Date(1),
+        maxAge:1,
+        httpOnly:true
+    })
+
+    res.cookie('refreshToken', '1', {
+        expires:new Date(1),
+        maxAge:1,
+        httpOnly:true
+    })
+    res.status(200).json({msg:'Logged out'})
+})
 export default router
