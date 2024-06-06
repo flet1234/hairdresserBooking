@@ -47,7 +47,6 @@ function App() {
             <Route path='/register' element={<LoginRegister page={'register'}/>}/>
             <Route path='/dashboard' element={<Auth><UserBoard/></Auth>}/>
             <Route path='/admindashboard' element={<Auth><AdminBoard/></Auth>}/>
-            
           </Routes>
           </CheckAdmin>
         </div>
