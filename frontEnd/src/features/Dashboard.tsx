@@ -1,111 +1,108 @@
-import { useEffect,useState, useRef } from 'react';
-import { createWorkDay, toggleWorkHour} from './adminSlice';
+import { useEffect,useState } from 'react';
+import { createWorkDay, toggleWorkHour, getAllData, saveDay} from './adminSlice';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import dayjs, { Dayjs } from 'dayjs';
-import Badge from '@mui/material/Badge';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { PickersDay, PickersDayProps } from '@mui/x-date-pickers/PickersDay';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
-import { DayCalendarSkeleton } from '@mui/x-date-pickers/DayCalendarSkeleton';
 import { Button } from '@mui/material';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import './dashboard.css'
+import dayjs from 'dayjs';
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import { DayType } from './adminSlice';
+
 
   
-  const initialValue = dayjs();
-  
-  function ServerDay(props: PickersDayProps<Dayjs> & { highlightedDays?: number[] }) {
-    const { highlightedDays = [], day, outsideCurrentMonth, ...other } = props;
-  
-    const isSelected =
-      !props.outsideCurrentMonth && highlightedDays.indexOf(props.day.date()) >= 0;
-  
-    return (
-      <Badge
-        key={props.day.toString()}
-        overlap="circular"
-        badgeContent={isSelected ? 'W' : undefined}
-      >
-        <PickersDay {...other} outsideCurrentMonth={outsideCurrentMonth} day={day}/>
-      </Badge>
-    );
-  }
-  
-  export default function DateCalendarServerRequest() {
-    const requestAbortController = useRef<AbortController | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [highlightedDays, setHighlightedDays] = useState<number[]>([]);
-    const [selectedDate,setSelectedDate] = useState<Dayjs | null>(dayjs())
-    const days = useAppSelector((state)=>state.adminReducer)
+  const DashBoard = () => {
+
+    const [selectedDate,setSelectedDate] = useState<Date | null>(null)
+    const days = useAppSelector((state)=>state.adminReducer.days)
+    const message = useAppSelector((state)=> state.adminReducer.message)
     const dispatch=useAppDispatch()
-    const [showOption, setShowOption] = useState('');
+    const [showOption, setShowOption] = useState('one');
+
+    useEffect(()=>{
+      const getData = async()=>{
+            dispatch(getAllData())
+          }
+      getData()   
+    },[])
+    
+    useEffect(()=>{
+      if(selectedDate){
+        const [day]:DayType[] = days.filter(day => day.date === selectedDate?.toLocaleDateString())
+        dispatch(saveDay(day))
+      }
+    },[days])
+
+   
+    const available_days = days.filter(day=> day.work === true).filter(day=> day.hours.some(hour=> hour.available === true)).map(day => dayjs(day.date).toDate())
+    
+    const booked_days = days.filter(day=> day.work === true).filter(day=> day.hours.every(hour=> !hour.available && !hour.notbooked)).map(day => dayjs(day.date).toDate())
+
+    const full_day = days.filter(day=> day.work === true).filter(day=> day.hours.every(hour=> !hour.available && hour.notbooked)).map(day => dayjs(day.date).toDate())
+    
+    interface HighlighStyle {
+      [key:string]:Date[]
+    }
+    
+    const highlightWithRanges: HighlighStyle[] = [
+      {
+        "available_day" : available_days
+        
+      },
+      {
+        "booked_day": booked_days
+      },
+      {
+        "full_day": full_day
+      },
+    ];
 
     const handleChange = (event: SelectChangeEvent) => {
       setShowOption(event.target.value);
     };
-  
-    const fetchHighlightedDays = (date: Dayjs) => {
-      const workdays = days.filter(day=>dayjs(day.date).month()===date.month()).map(day => dayjs(day.date).date())
-      setHighlightedDays(workdays)
-      setIsLoading(false)
-    }
-
-    useEffect(() => {
-        fetchHighlightedDays(initialValue)
-        return () => requestAbortController.current?.abort();
-    }, [days]);
-  
-    const handleMonthChange = (date: Dayjs) => {
-      if (requestAbortController.current) {
-        requestAbortController.current.abort();
-      }
-  
-      setIsLoading(true);
-      setHighlightedDays([]);
-      fetchHighlightedDays(date);
-    };
 
     const handleCreateWorkDay = () => {
         if(selectedDate){
-            const today = selectedDate.format('YYYY-MM-DD')
+            const today = selectedDate.toLocaleDateString()
             dispatch(createWorkDay(today))
         }
     }
 
+    const checkDay = () => {
+      return days.some(day => day.date === selectedDate?.toLocaleDateString())
+    }
+
     const filterDays = () => {
         if(showOption === 'one'){
-            return days.filter(day=> dayjs(day.date).format('DD/MM/YYYY') === selectedDate?.format('DD/MM/YYYY'))
+            return days.filter(day=> day.date === selectedDate?.toLocaleDateString())
         } else if (showOption === 'all'){
             return days.filter(day => day.work === true)
         }
         return []
-        
     }
+
     return (
-        <>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateCalendar
-          
-          defaultValue={initialValue}
-          loading={isLoading}
-          onMonthChange={handleMonthChange}
-          renderLoading={() => <DayCalendarSkeleton />}
-          slots={{
-            day: ServerDay,
-          }}
-          slotProps={{
-            day: {
-              highlightedDays,
-            } as any,
-          }}
-          onChange={(newDate) => setSelectedDate(newDate)}
-        />
-        <Button onClick={handleCreateWorkDay}>Create work day for this date</Button>
-        <div>
+      <>
+      <DatePicker 
+      // custom day dla style
+      placeholderText = 'Click to select a date'
+      showIcon
+      toggleCalendarOnIconClick
+      dateFormat="dd/MM/yyyy"
+      selected={selectedDate} 
+      onChange={(date:Date)=>setSelectedDate(date)}
+      inline
+      highlightDates={highlightWithRanges}
+      // excludeDates={[
+      //   {date:new Date(),message:'Today is pidr'}
+      // ]} dal usera or filter dates
+      // selectTime
+      />
+
+      {!checkDay()? <Button onClick={handleCreateWorkDay}>Create work day for this date</Button> : <Button onClick={handleCreateWorkDay}>Edit</Button>}
       <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
         <InputLabel id="demo-simple-select-standard-label">Option</InputLabel>
         <Select
@@ -116,16 +113,18 @@ import './dashboard.css'
           <MenuItem value={'all'}>All</MenuItem>
         </Select>
       </FormControl>
-    </div>
         <ul>
             {filterDays()?.map((day,index)=>(
                 <li key={index}>
                     {dayjs(day.date).format('DD/MM/YYYY')} - Work: {day.work ? 'Yes' : 'No'} - Hours: {day.hours.map(hour => {
-                      return <Button key={hour.time} onClick={()=>dispatch(toggleWorkHour({date:day.date, time: hour.time}))} color={hour.avaliable ? 'success' : hour.NotBooked ? 'error' : 'secondary' }>{hour.time}</Button>})}
+                      return <Button key={hour.time} onClick={()=>dispatch(toggleWorkHour({date:day.date, time: hour.time}))} color={hour.available ? 'success' : hour.notbooked ? 'error' : 'secondary' }>{hour.time}</Button>})}
                 </li>
+               
             ))}
-        </ul>
-      </LocalizationProvider>
-    </> 
+        </ul> 
+        {message}
+      </>
     )
   }
+  
+ export default DashBoard

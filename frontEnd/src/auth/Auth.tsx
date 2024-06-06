@@ -17,9 +17,8 @@ const Auth = ({children}: ProviderProps) => {
     },[])
 
     const verify = async() => {
-        // https://hairdresserbooking.onrender.com/api/users/verify
         try {
-            const response = await axios.get('http://localhost:3001/api/users/verify', {headers: {
+            const response = await axios.get(import.meta.env.BACKENDURL+'/api/users/verify', {headers: {
                 'x-access-token': token?.token,
                 'x-refresh-token': refreshToken
             }, withCredentials:true})

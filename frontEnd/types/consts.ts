@@ -1,5 +1,4 @@
 import React, {ReactNode} from 'react'
-import store from '../src/store/store'
 
 export interface ConnectionInterface {
     host:string,
@@ -14,6 +13,22 @@ export type UserInterface = {
     password:string
     name:string
     token:string
+}
+
+export type DayTypeWithID = {
+    id:number
+    date:string
+    work:boolean
+    hours:Hours[]
+}
+
+export interface Hours {
+    time:string
+    available:boolean
+    notbooked:boolean
+    servicename?:string
+    length?:string
+    price?:number
 }
 
 export type UserLogin = Pick<UserInterface, 'email' | 'password'>

@@ -25,3 +25,34 @@ export type UsersRecord = Record<string, UserInterface>
 export interface ErrorMessageInterface {
     msg: string
 }
+
+export interface HoursInterface {
+    time:string
+    available:boolean
+    notbooked:boolean
+    servicename?:string
+    length?:string
+    price?:number
+}
+
+export type DayTypeWithID = {
+    id:number
+    date:string
+    work:boolean
+    hours:Hours[]
+}
+
+export interface Hours {
+    time:string
+    available:boolean
+    notbooked:boolean
+    servicename?:string
+    length?:string
+    price?:number
+}
+
+
+export type DayType = {
+    date:string,
+    work:boolean
+}

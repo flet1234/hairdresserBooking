@@ -14,9 +14,8 @@ const Home = () => {
     },[])
 
     const getUsers = async () => {
-        // 'https://hairdresserbooking.onrender.com/api/users'
         try {
-            const responce = await axios.get( 'http://localhost:3001/api/users',{
+            const responce = await axios.get(import.meta.env.VITE_API_URL+'/api/users',{
                 headers: {
                     'x-access-token': token?.token
                 },

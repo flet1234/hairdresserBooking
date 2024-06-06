@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction} from 'express'
 import jwt, { VerifyErrors, JwtPayload } from 'jsonwebtoken'
 import dotenv from 'dotenv'
-import { log } from 'console'
 dotenv.config()
 
 export const verifyToken = (

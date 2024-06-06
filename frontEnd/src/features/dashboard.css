@@ -1,6 +1,9 @@
-.availible{
-    color:green
+.available_day{
+    background-color:green;
 }
-.busy{
-    color: red;
+.full_day{
+    background-color: red;
+}
+.booked_day{
+    background-color: rgb(255, 119, 0);
 }

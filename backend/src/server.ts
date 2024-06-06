@@ -4,16 +4,13 @@ import 'dotenv/config'
 import cookieParser from 'cookie-parser'
 import path from 'path'
 import usersrouter from './routes/users.r'
+import servicerouter from './routes/service.r'
 
+const {FRONTENDURL} = process.env
 const app = express()
 
-// app.use(cors({
-//     origin: 'https://hairdresserbooking.onrender.com',
-//     credentials: true,}
-// ))
-
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: FRONTENDURL,
     credentials: true,}
 ))
 
@@ -26,6 +23,7 @@ app.listen(process.env.Port || 3001, () => {
 })
 
 app.use('/api/users', usersrouter)
+app.use('/api/service', servicerouter)
 
 app.use(express.static(path.resolve(__dirname,'../../../frontEnd/dist')))
 app.get('*', (req,res)=>{

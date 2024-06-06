@@ -16,10 +16,10 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
 
     const navigate = useNavigate()
     const loginRegister = async() => {
-        // 'https://hairdresserbooking.onrender.com/api/users/login'
         if(page === 'login'){
             try {
-                const responce = await axios.post('http://localhost:3001/api/users/login', {email,password}, {withCredentials:true})
+                
+                const responce = await axios.post(import.meta.env.VITE_API_URL+'/api/users/login', {email,password}, {withCredentials:true})
                 
                 if(responce.status === 200){
                     setMessage('')
@@ -39,7 +39,7 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
         else{
             // 'https://hairdresserbooking.onrender.com/api/users/register'
             try {
-                const response = await axios.post('http://localhost:3001/api/users/register', {email, password , name}, {withCredentials:true})
+                const response = await axios.post(import.meta.env.VITE_API_URL+'/api/users/register', {email, password , name}, {withCredentials:true})
 
                 if(response.status === 200){
                     setMessage('')
