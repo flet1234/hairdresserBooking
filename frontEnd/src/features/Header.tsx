@@ -1,7 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Stack } from "@mui/material";
-import { useAuthContext } from "../App";
-import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { toggleAdmin } from "./adminSlice";
 import axios from "axios";

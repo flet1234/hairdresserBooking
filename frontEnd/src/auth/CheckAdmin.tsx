@@ -1,14 +1,11 @@
 import { useEffect} from "react";
 import axios from "axios";
-import {useAuthContext} from '../App'
 import { toggleAdmin } from "../features/adminSlice";
 import {ProviderProps} from "../../types/consts";
-import { useAppDispatch, useAppSelector } from "../store/store";
+import { useAppDispatch} from "../store/store";
 
 const CheckAdmin = ({children}: ProviderProps) => {
-    const {setAdmin} = useAuthContext()
     const email = localStorage.getItem('email')
-    const isAdmin = useAppSelector((state)=>state.adminReducer.isAdmin)
     const dispatch = useAppDispatch()
     
     useEffect(() => {
