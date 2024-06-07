@@ -32,9 +32,9 @@ import { DayType } from './adminSlice';
 
     const available_days = days.filter(day=> day.work === true).filter(day=> day.hours.some(hour=> hour.available === true)).map(day => dayjs(day.date).toDate())
     
-    const booked_days = days.filter(day=> day.work === true).filter(day=> day.hours.every(hour=> !hour.available && !hour.notbooked)).map(day => dayjs(day.date).toDate())
+    const booked_days = days.filter(day=> day.work === true).filter(day=> day.hours.every(hour=> !hour.available)).filter(day => day.hours.some(hour=>!hour.notbooked)).map(day => dayjs(day.date).toDate())
 
-    const full_day = days.filter(day=> day.work === true).filter(day=> day.hours.every(hour=> !hour.available && hour.notbooked)).map(day => dayjs(day.date).toDate())
+    const full_days = days.filter(day=> day.work === true).filter(day=> day.hours.every(hour=> !hour.available && hour.notbooked)).map(day => dayjs(day.date).toDate())
     
     interface HighlighStyle {
       [key:string]:Date[]
@@ -42,14 +42,13 @@ import { DayType } from './adminSlice';
     
     const highlightWithRanges: HighlighStyle[] = [
       {
-        "available_day" : available_days
-        
+        "available_days" : available_days
       },
       {
-        "booked_day": booked_days
+        "booked_days": booked_days
       },
       {
-        "full_day": full_day
+        "full_days": full_days
       },
     ];
 
@@ -78,7 +77,6 @@ import { DayType } from './adminSlice';
     
         default:
           return <DatePicker 
-          // custom day dla style
           placeholderText = 'Click to select a date'
           showIcon
           toggleCalendarOnIconClick
@@ -87,10 +85,6 @@ import { DayType } from './adminSlice';
           onChange={(date:Date)=>setSelectedDate(date)}
           inline
           highlightDates={highlightWithRanges}
-          // excludeDates={[
-          //   {date:new Date(),message:'Today is pidr'}
-          // ]} dal usera or filter dates
-          // selectTime
           />
       }
     }
@@ -113,6 +107,7 @@ import { DayType } from './adminSlice';
     return (
       <>
       {dayFetchLoad()}
+      <br />
       {!checkDay()? <Button onClick={handleCreateWorkDay}>Create work day for this date</Button> : 'Click on hour to change it from opened to closed'}
         <ul>
             {filterDays()?.map((day,index)=>(

@@ -49,7 +49,7 @@ export const _login = async(
             return res.status(404).json({msg:'Wrong password'} as ErrorMessageInterface)
         }
 
-        const {id:userId,email:userEmail} = user
+        const {id:userId,email:userEmail,name:user_name} = user
         
         const secret = process.env.ACCESS_TOKEN_SECRET || '19MynameisMaksim91'
 
@@ -71,7 +71,7 @@ export const _login = async(
             token:accessToken,
             id:userId,
             email:userEmail,
-            name:userEmail,
+            name:user_name,
         })
     } catch (error) {
         console.error('Error in controllers _login', error);

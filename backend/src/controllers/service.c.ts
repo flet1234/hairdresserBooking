@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { ErrorMessageInterface, DayType, HoursInterface, DayTypeWithID} from "../../types/consts";
-import { getAllData, updateHour,saveDay, checkDay} from "../models/service.m";
+import { getAllData, updateHour,saveDay, checkDay, saveHistory, getServices} from "../models/service.m";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -10,9 +10,9 @@ export const _updateHour = async(
 ) => {
     try {
         const {date, work} = req.body.day
-        const {time,available,notbooked,servicename,length,price} = req.body.hours
+        const {time,available,notbooked,servicename,length,price,user_name} = req.body.hours
         const newHour = await updateHour(
-            {date, work},{time,available,notbooked,servicename,length,price}
+            {date, work},{time,available,notbooked,servicename,length,price,user_name}
         )
         res.json(newHour as HoursInterface)
     } catch (error) {
@@ -52,25 +52,6 @@ export const _saveDay = async(
     }
 }
 
-// export const _updateDay = async(
-//     req:Request<DayTypeWithID>,
-//     res:Response<DayType|ErrorMessageInterface>
-// ) => {
-//     try {
-//         const {date, work ,hours, id} = req.body.dayData
-//         console.log(hours);
-        
-//         const newDay = await updateDay(
-//             {date, work, id , hours}
-//         )
-//         res.json(newDay as DayType)
-//     } catch (error) {
-//         console.error('Error in service_controllers _saveDay');
-//         res.status(400).json({msg:'Something went wrong'} as ErrorMessageInterface)
-//     }
-// }
-
-
 export const _CheckDay = async(
     req:Request,
     res:Response
@@ -87,4 +68,35 @@ export const _CheckDay = async(
         console.error('Error in service_controllers _CheckDay');
         res.status(400).json({msg:'Could not check day'} as ErrorMessageInterface)
     }
+}
+
+export const _saveHistory = async(
+    req:Request,
+    res:Response
+) => {
+    try {
+        const historyObj = req.body
+        const result = await saveHistory(historyObj)
+        res.json(result)
+
+    } catch (error) {
+        console.error('Error in service_controllers _saveHistory');
+        res.status(403).json({msg:'user not found'} as ErrorMessageInterface)
+    }
+}
+
+export const _getServices = async(
+    req:Request,
+    res:Response
+) => {
+    try {
+        const services = await getServices()
+        
+        res.json(services)
+    } catch (error) {
+        console.error('Error in service_controllers _getServices');
+        res.status(400).json({msg:'cant get services'} as ErrorMessageInterface)
+    }
+   
+    
 }

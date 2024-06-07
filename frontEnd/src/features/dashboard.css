@@ -1,9 +1,9 @@
-.available_day{
+.available_days{
     background-color:green;
 }
-.full_day{
+.full_days{
     background-color: red;
 }
-.booked_day{
+.booked_days{
     background-color: rgb(255, 119, 0);
 }

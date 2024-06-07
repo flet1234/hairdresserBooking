@@ -10,6 +10,8 @@ const Header = () => {
     const isAdmin = useAppSelector((state)=>state.adminReducer.isAdmin)
     const dispatch = useAppDispatch()
     const {setToken} = useAuthContext()
+    const email = localStorage.getItem('email')
+    
 
     const check = () => {
         if(isAdmin){
@@ -46,9 +48,7 @@ const Header = () => {
     return (
         <Stack spacing={2} direction={'row'}>
             <Button><Link to='/'>Home</Link></Button>
-            <Button><Link to='/login'>Login</Link></Button>
-            <Button><Link to='/register'>Register</Link></Button>
-            <Button onClick={()=>logout()}>Log out</Button>
+            {email ? <Button onClick={()=>logout()}>Log out</Button> : <><Button><Link to='/login'>Login</Link> </Button><Button><Link to='/register'>Register</Link></Button></>}
             {dashboard}
         </Stack>
     )

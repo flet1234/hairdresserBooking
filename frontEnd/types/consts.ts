@@ -27,6 +27,7 @@ export interface Hours {
     time:string
     available:boolean
     notbooked:boolean
+    user_name?:string
     servicename?:string
     length?:string
     price?:number
@@ -58,3 +59,21 @@ export interface LoginRegisterProps {
     page:string
 }
 
+export interface ServiceListProps {
+    date:string
+    time:string
+}
+
+export interface ServiceInterface {
+    servicename:string
+    length:string
+    price:number
+    comment?:string
+}
+
+export interface ServiceHistory {
+    user_email:string
+    date:string
+    servicename:string
+    comment?:string
+}

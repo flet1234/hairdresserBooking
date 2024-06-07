@@ -25,6 +25,7 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
                     setToken(responce.data)
                     localStorage.setItem('refreshToken', responce.data.refreshToken)
                     localStorage.setItem('email', responce.data.email)
+                    localStorage.setItem('name', responce.data.name)
                     navigate('/')
                 }
             } catch (error) {
@@ -37,7 +38,6 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
             }
         }
         else{
-            // 'https://hairdresserbooking.onrender.com/api/users/register'
             try {
                 const response = await axios.post(import.meta.env.VITE_API_URL+'/api/users/register', {email, password , name}, {withCredentials:true})
 

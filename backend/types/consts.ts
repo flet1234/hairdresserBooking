@@ -16,7 +16,7 @@ export type UserInterface = {
 }
 
 export type UserLogin = Pick<UserInterface, 'email' | 'password'>
-export type UserLoginReturn = Pick<UserInterface, 'id' | 'email' | 'password' | 'admin'>
+export type UserLoginReturn = Pick<UserInterface, 'id' | 'email' | 'password' | 'name'>
 export type UserRegister = Pick<UserInterface, 'email' | 'password' | 'name'>
 export type UserResponse = Pick<UserInterface, 'id' | 'email' | 'name' | 'token'>
 export type UserInfo = Pick<UserInterface, 'id' | 'email' | 'name'>
@@ -31,6 +31,7 @@ export interface HoursInterface {
     time:string
     available:boolean
     notbooked:boolean
+    user_name:string
     servicename?:string
     length?:string
     price?:number
@@ -56,4 +57,11 @@ export interface Hours {
 export type DayType = {
     date:string,
     work:boolean
+}
+
+export interface ServiceHistory {
+    user_email:string
+    date:string
+    servicename:string
+    comment?:string
 }

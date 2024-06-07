@@ -1,14 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-
-export interface Hours {
-    time:string
-    available:boolean
-    notbooked:boolean
-    serviceName?:string
-    length?:string
-    price?:number
-}
+import { Hours } from "../../types/consts";
 
 export type DayType = {
     date:string,
@@ -42,6 +34,10 @@ const generateHours = (): Hours[] => {
     return hours
 }
 
+export const transfromServiceLenghtTotNumber = (length:string):number =>{
+    return parseInt(length.split(':')[0],10)
+}
+
 export const getAllData = createAsyncThunk('days/getAllData', async() => {
     try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/service/data`)
@@ -52,26 +48,19 @@ export const getAllData = createAsyncThunk('days/getAllData', async() => {
     }
 })
 
-// export const saveDay = createAsyncThunk('days/saveDay', async(dayData:DayType,) => {
-//     try {
-//         const date = dayData.date
-//         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/service/data`,{date})
-//         console.log(res.data);
-//         if(res.data.length > 0){
-//             const id=res.data[0].id
-//             const dayDataWithId = {...dayData, id}
-//             console.log(dayDataWithId); 
-//             const res2 = await axios.put(`${import.meta.env.VITE_API_URL}/api/service/saveday`, {dayData})
-//             console.log(res2.data);
-//         } else {
-//             const res3 = await axios.post(`${import.meta.env.VITE_API_URL}/api/service/saveday`, {dayData})
-//             console.log(res3.data);
-//         }
-        
-//     } catch (error) {
-//         console.error(error);
-//     }
-// })
+export const addTime = (time:string,num:number):string => {
+    let [hours,minutes] = time.split(':').map(Number)
+    hours+=num
+
+    if(hours >= 24){
+        hours = hours - 24
+    }
+
+    const newHours = String(hours).padStart(2,'0')
+    const newMinutes = String(minutes).padStart(2,'0')
+
+    return `${newHours}:${newMinutes}`
+}
 
 export const saveDay = createAsyncThunk('days/saveDay', async(dayData:DayType,) => {
     try {
@@ -107,6 +96,28 @@ const adminSlice = createSlice({
                 }
             }
         },
+        bookHour: (state, action: PayloadAction<{ date:string, hour:Hours}>)=>{
+            const {date} = action.payload
+            const {time,length,price,servicename,user_name} = action.payload.hour
+            const day = state.days.find(day => day.date === date)
+            if (day) {
+                if(length){
+                        const serviceLenght = transfromServiceLenghtTotNumber(length)
+                        for(let i=0;i<serviceLenght;i++){
+                            const hour = day.hours.find(hour => hour.time === addTime(time,i))
+                            if(hour) {
+                                hour.available = !hour.available
+                                hour.notbooked = !hour.notbooked
+                                hour.length = length
+                                hour.price = price
+                                hour.servicename = servicename
+                                hour.user_name = user_name
+                            }
+                        }
+                    }
+                
+            }
+        },
         toggleAdmin: (state,action:PayloadAction<boolean>) => {
             state.isAdmin = action.payload
         }
@@ -136,5 +147,5 @@ const adminSlice = createSlice({
     }
 )
 
-export const {createWorkDay, toggleWorkHour, toggleAdmin} = adminSlice.actions
+export const {createWorkDay, toggleWorkHour, toggleAdmin, bookHour} = adminSlice.actions
 export default adminSlice.reducer
