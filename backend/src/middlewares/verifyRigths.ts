@@ -10,7 +10,6 @@ export const verifyRights = async(
     try {
         const {email} = req.body
         const admin = await checkAdmin(email)
-        console.log(admin);
         
         switch (admin) {
             case true:

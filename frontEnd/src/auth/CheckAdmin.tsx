@@ -18,6 +18,7 @@ const CheckAdmin = ({children}: ProviderProps) => {
             const response = await axios.post(import.meta.env.VITE_API_URL+'/api/users/verify/admin',{email})
             if(response.status === 200){
                 dispatch(toggleAdmin(true))
+                
             } else {
                 dispatch(toggleAdmin(false))
             }

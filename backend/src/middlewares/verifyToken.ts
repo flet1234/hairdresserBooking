@@ -15,13 +15,11 @@ export const verifyToken = (
 
     if(!accessToken) {
         if(!refreshToken){
-            console.log('1');
             
             return res.status(401).json({msg:'Unauthorized'})}
         
         jwt.verify(refreshToken,secret,(err: VerifyErrors | null, decoded: JwtPayload | string | undefined)=>{
             if(err){
-                console.log('2');
                 return res.status(403).json({error: err.message, msg: 'Forbidden'})
             }
             if(typeof decoded === 'object' && decoded){
@@ -40,22 +38,18 @@ export const verifyToken = (
                     maxAge:7*24*60*60*1000,
                     httpOnly:true
                 })  
-                console.log('3');
                 // req.user = decoded as JwtPayload
                 next()
             } else {
-                console.log('4');
                 return res.status(403).json({msg:'Forbidden'})
             }
         })
     } else if (accessToken){
         jwt.verify(accessToken,secret,(err: VerifyErrors | null, decoded: JwtPayload | string | undefined)=>{
             if(err){
-                console.log('5');
                 return res.status(403).json({error: err.message, msg: 'Forbidden'})
             }
             else if(decoded){
-                console.log('6');
                 // req.user = decoded as JwtPayload
                     next()
             }

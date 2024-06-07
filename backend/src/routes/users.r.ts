@@ -17,17 +17,9 @@ router.post('/verify/admin', verifyRights , (req, res) =>{
 })
 router.get('/logout', (req,res)=>{
 
-    res.cookie('token', '2', {
-        expires:new Date(1),
-        maxAge:1,
-        httpOnly:true
-    })
-
-    res.cookie('refreshToken', '1', {
-        expires:new Date(1),
-        maxAge:1,
-        httpOnly:true
-    })
+    for(let cookie in req.cookies) {
+        res.clearCookie(cookie)
+    }
     res.status(200).json({msg:'Logged out'})
 })
 export default router

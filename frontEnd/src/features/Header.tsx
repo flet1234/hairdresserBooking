@@ -3,11 +3,13 @@ import { Button, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { toggleAdmin } from "./adminSlice";
 import axios from "axios";
+import { useAuthContext } from "../App";
 
 
 const Header = () => {
     const isAdmin = useAppSelector((state)=>state.adminReducer.isAdmin)
     const dispatch = useAppDispatch()
+    const {setToken} = useAuthContext()
 
     const check = () => {
         if(isAdmin){
@@ -31,8 +33,10 @@ const Header = () => {
         deleteCookie('token');
         deleteCookie('refreshToken');
 
-        const res = await axios.get(import.meta.env.VITE_API_URL+'/api/users/logout')
+        const res = await axios.get(import.meta.env.VITE_API_URL+'/api/users/logout',{withCredentials:true})
+        setToken(null)
         console.log(res.data);
+
         
         dispatch(toggleAdmin(false))
         navigate('/login')
