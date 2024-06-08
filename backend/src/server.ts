@@ -18,8 +18,8 @@ app.use(cookieParser())
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 
-app.listen(process.env.Port || 3001, () => {
-    console.log(`Running on ${process.env.Port || 3001}`);   
+app.listen(process.env.PORT || 3001, () => {
+    console.log(`Running on ${process.env.PORT || 3001}`);   
 })
 
 app.use('/api/users', usersrouter)
