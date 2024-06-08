@@ -25,7 +25,7 @@ import { DayType } from './adminSlice';
     
     useEffect(()=>{
       if(selectedDate){
-        const [day]:DayType[] = days.filter(day => day.date === selectedDate?.toLocaleDateString())
+        const [day]:DayType[] = days.filter(day => day.date === selectedDate?.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }))
         dispatch(saveDay(day))
       }
     },[days])
@@ -80,7 +80,7 @@ import { DayType } from './adminSlice';
           placeholderText = 'Click to select a date'
           showIcon
           toggleCalendarOnIconClick
-          dateFormat="dd.MM.yyyy"
+          dateFormat="dd/MM/yyyy"
           selected={selectedDate} 
           onChange={(date:Date)=>setSelectedDate(date)}
           inline
@@ -91,17 +91,17 @@ import { DayType } from './adminSlice';
 
     const handleCreateWorkDay = () => {
         if(selectedDate){
-            const today = selectedDate.toLocaleDateString()
+            const today = selectedDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })
             dispatch(createWorkDay(today))
         }
     }
 
     const checkDay = () => {
-      return days.some(day => day.date === selectedDate?.toLocaleDateString())
+      return days.some(day => day.date === selectedDate?.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }))
     }
 
     const filterDays = () => {
-      return days.filter(day=> day.date === selectedDate?.toLocaleDateString())
+      return days.filter(day=> day.date === selectedDate?.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }))
     }
 
     return (
@@ -112,7 +112,7 @@ import { DayType } from './adminSlice';
         <ul>
             {filterDays()?.map((day,index)=>(
                 <li key={index}>
-                    {dayjs(day.date).format('DD.MM.YYYY')} - Work: {day.work ? 'Yes' : 'No'} - Hours: {day.hours.map(hour => {
+                    {dayjs(day.date).format('DD/MM/YYYY')} - Work: {day.work ? 'Yes' : 'No'} - Hours: {day.hours.map(hour => {
                       return <Button key={hour.time} onClick={()=>dispatch(toggleWorkHour({date:day.date, time: hour.time}))} color={hour.available ? 'success' : hour.notbooked ? 'error' : 'secondary' }>{hour.time}</Button>})}
                 </li>
                
