@@ -91,9 +91,7 @@ import { DayType } from './adminSlice';
 
     const handleCreateWorkDay = () => {
         if(selectedDate){
-            console.log('1');
             const today = selectedDate.toLocaleDateString()
-            console.log('2');
             dispatch(createWorkDay(today))
         }
     }
@@ -103,8 +101,6 @@ import { DayType } from './adminSlice';
     }
 
     const filterDays = () => {
-      console.log('3');
-      
       return days.filter(day=> day.date === selectedDate?.toLocaleDateString())
     }
 
