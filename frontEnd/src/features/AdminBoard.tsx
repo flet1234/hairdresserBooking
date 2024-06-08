@@ -91,7 +91,9 @@ import { DayType } from './adminSlice';
 
     const handleCreateWorkDay = () => {
         if(selectedDate){
+            console.log('1');
             const today = selectedDate.toLocaleDateString()
+            console.log('2');
             dispatch(createWorkDay(today))
         }
     }
@@ -101,6 +103,7 @@ import { DayType } from './adminSlice';
     }
 
     const filterDays = () => {
+      console.log('3');
       return days.filter(day=> day.date === selectedDate?.toLocaleDateString())
     }
 
@@ -112,7 +115,7 @@ import { DayType } from './adminSlice';
         <ul>
             {filterDays()?.map((day,index)=>(
                 <li key={index}>
-                    {day.date} - Work: {day.work ? 'Yes' : 'No'} - Hours: {day.hours.map(hour => {
+                    {dayjs(day.date).format('DD/MM/YYYY')} - Work: {day.work ? 'Yes' : 'No'} - Hours: {day.hours.map(hour => {
                       return <Button key={hour.time} onClick={()=>dispatch(toggleWorkHour({date:day.date, time: hour.time}))} color={hour.available ? 'success' : hour.notbooked ? 'error' : 'secondary' }>{hour.time}</Button>})}
                 </li>
                

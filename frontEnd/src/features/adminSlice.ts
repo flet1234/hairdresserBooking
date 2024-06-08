@@ -76,9 +76,12 @@ const adminSlice = createSlice({
     initialState,
     reducers:{
         createWorkDay: (state,action:PayloadAction<string>)=>{
+            console.log('4');
             const selectedDate = action.payload
             const existingDay = state.days.find(day => day.date === selectedDate)
+            console.log('5');
             if(!existingDay){
+                console.log('6');
                 state.days.push({
                     date:selectedDate,
                     work:true,
