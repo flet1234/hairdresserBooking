@@ -22,9 +22,9 @@ const initialState:State = {
     isAdmin:false
 }
 
-const generateHours = (): Hours[] => {
+const generateHours = (start:number,end:number): Hours[] => {
     const hours: Hours[] = []
-    for (let i=8;i<22;i++){
+    for (let i=start;i<end;i++){
         hours.push({
             time:`${i<10 ? '0' : ''}${i}:00`,
             available:true,
@@ -75,24 +75,30 @@ const adminSlice = createSlice({
     name:'days',
     initialState,
     reducers:{
-        createWorkDay: (state,action:PayloadAction<string>)=>{
-            const selectedDate = action.payload
+        createWorkDay: (state,action:PayloadAction<{date:string,start:number,end:number}>)=>{
+            const selectedDate = action.payload.date
             const existingDay = state.days.find(day => day.date === selectedDate)
             if(!existingDay){
                 state.days.push({
                     date:selectedDate,
                     work:true,
-                    hours:generateHours()
+                    hours:generateHours(action.payload.start, action.payload.end)
                 })
                 }
             },
-        toggleWorkHour: (state, action: PayloadAction<{ date: string; time: string}>)=>{
-            const {date,time}=action.payload
+        editHour: (state, action: PayloadAction<{date:string,hour:Hours}>)=>{
+            const {date}=action.payload
+            const {time,available,notbooked,price,user_name,servicename,length}=action.payload.hour
             const day = state.days.find(day => day.date === date)
             if (day) {
                 const hour = day.hours.find(hour => hour.time === time)
                 if(hour) {
-                    hour.available = !hour.available
+                    hour.available = available
+                    hour.notbooked = notbooked
+                    hour.price = price
+                    hour.servicename = servicename
+                    hour.user_name = user_name
+                    hour.length = length
                 }
             }
         },
@@ -147,5 +153,5 @@ const adminSlice = createSlice({
     }
 )
 
-export const {createWorkDay, toggleWorkHour, toggleAdmin, bookHour} = adminSlice.actions
+export const {createWorkDay, editHour, toggleAdmin, bookHour} = adminSlice.actions
 export default adminSlice.reducer

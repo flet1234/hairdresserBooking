@@ -33,6 +33,19 @@ export interface Hours {
     price?:number
 }
 
+export interface UserHistoryInterface {
+    date:string
+    servicename:string
+    comment:string
+}
+
+export interface UserboardProps{
+    setTime: React.Dispatch<React.SetStateAction<string | null>>
+    setServicename: React.Dispatch<React.SetStateAction<string | null>>
+    setDate: React.Dispatch<React.SetStateAction<string | null>>
+    setReserved:React.Dispatch<React.SetStateAction<boolean>>
+}
+
 export type UserLogin = Pick<UserInterface, 'email' | 'password'>
 export type UserLoginReturn = Pick<UserInterface, 'id' | 'email' | 'password'>
 export type UserRegister = Pick<UserInterface, 'email' | 'password' | 'name'>
@@ -62,6 +75,10 @@ export interface LoginRegisterProps {
 export interface ServiceListProps {
     date:string
     time:string
+    setTime: React.Dispatch<React.SetStateAction<string | null>>
+    setServicename: React.Dispatch<React.SetStateAction<string | null>>
+    setDate: React.Dispatch<React.SetStateAction<string | null>>
+    setReserved:React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export interface ServiceInterface {

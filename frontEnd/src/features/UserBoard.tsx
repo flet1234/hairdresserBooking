@@ -8,8 +8,10 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { DayType } from './adminSlice';
 import ServiceList from './ServiceList';
+import { UserboardProps } from '../../types/consts';
 
-  const UserBoard = () => {
+
+  const UserBoard = ({setDate,setTime,setServicename,setReserved}:UserboardProps) => {
 
     const [selectedDate,setSelectedDate] = useState<Date | null>(null)
     const [selectedHour,setSelectedHour] = useState<string | null>(null)
@@ -24,7 +26,7 @@ import ServiceList from './ServiceList';
           }
       getData()   
     },[])
-    
+
     useEffect(()=>{
       if(selectedDate){
         const [day]:DayType[] = days.filter(day => day.date === selectedDate?.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' }))
@@ -100,7 +102,7 @@ import ServiceList from './ServiceList';
             ))}
         </ul> 
         {loadImage()} <br />
-        {!selectedHour ? '' : !selectedDate ? '' : <ServiceList time={selectedHour} date={selectedDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}/>}
+        {!selectedHour ? '' : !selectedDate ? '' : <ServiceList setReserved={setReserved} setDate={setDate} setServicename={setServicename} setTime={setTime} time={selectedHour} date={selectedDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}/>}
       </>
     )
   }

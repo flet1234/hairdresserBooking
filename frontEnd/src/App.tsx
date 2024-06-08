@@ -7,9 +7,9 @@ import LoginRegister from './features/LoginRegister'
 import Auth from './auth/Auth'
 import {AuthContextInterface, ProviderProps, UserResponse} from '../types/consts'
 import './App.css'
-import UserBoard from './features/UserBoard'
 import CheckAdmin from './auth/CheckAdmin'
 import AdminBoard from './features/AdminBoard'
+import Success from './features/Success'
 
 export const AuthContext = createContext<AuthContextInterface | null>(null)
 
@@ -45,7 +45,7 @@ function App() {
             <Route path='/' element={<CheckAdmin><Home/></CheckAdmin>}/>
             <Route path='/login' element={<LoginRegister page={'login'}/>}/>
             <Route path='/register' element={<LoginRegister page={'register'}/>}/>
-            <Route path='/dashboard' element={<Auth><UserBoard/></Auth>}/>
+            <Route path='/dashboard' element={<Auth><Success/></Auth>}/>
             <Route path='/admindashboard' element={<Auth><AdminBoard/></Auth>}/>
           </Routes>
           </CheckAdmin>

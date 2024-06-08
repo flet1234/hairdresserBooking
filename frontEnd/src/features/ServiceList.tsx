@@ -4,16 +4,15 @@ import { useEffect, useState } from "react"
 import { ServiceHistory, ServiceInterface, ServiceListProps } from "../../types/consts"
 import { useAppDispatch, useAppSelector } from "../store/store"
 import { bookHour, transfromServiceLenghtTotNumber,addTime } from "./adminSlice"
-import { useNavigate } from "react-router-dom"
 
 
-const ServiceList = ({date,time}:ServiceListProps) =>{
+
+const ServiceList = ({date,time, setTime ,setDate,setServicename,setReserved}:ServiceListProps) =>{
     const [services, setServices] = useState<ServiceInterface[]|null>(null)
     const dispatch = useAppDispatch()
     const name = localStorage.getItem('name')
     const email = localStorage.getItem('email')
     const days = useAppSelector((state)=>state.adminReducer.days)
-    const navigate = useNavigate()
     let user_email:string
     if(email){
         user_email=email
@@ -35,7 +34,7 @@ const ServiceList = ({date,time}:ServiceListProps) =>{
 
     const applyService = async({user_email,date,servicename,comment}:ServiceHistory) => {
         const res = await axios.post(`${import.meta.env.VITE_API_URL}/api/service/history/save`,{user_email,date,servicename,comment})
-        navigate('/')
+        setReserved(true)
         return res.data
     }
 
@@ -65,7 +64,12 @@ const ServiceList = ({date,time}:ServiceListProps) =>{
                         {service.comment ? <li>{service.comment}</li> : ''}
                         <li>{checkIfTimeIsEnough(date,time,service.length) ? <Button onClick={()=>{
                             dispatch(bookHour({date,hour:{time,servicename:service.servicename,length:service.length,price:service.price,user_name,notbooked:false, available:false}}))
-                        applyService({user_email,date:dateTime,servicename:service.servicename,comment:service.comment})}}>Apply</Button> : 'Not enough time!'}</li>
+                            applyService({user_email,date:dateTime,servicename:service.servicename,comment:service.comment})
+                            setDate(date)
+                            setTime(time)
+                            setServicename(service.servicename)
+                        }}
+                            >Apply</Button> : 'Not enough time!'}</li>
                     </ul>
                 )
             })}

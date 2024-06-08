@@ -1,6 +1,6 @@
 import { Request,Response } from "express";
 import { ErrorMessageInterface, DayType, HoursInterface, DayTypeWithID} from "../../types/consts";
-import { getAllData, updateHour,saveDay, checkDay, saveHistory, getServices} from "../models/service.m";
+import { getAllData, updateHour,saveDay, checkDay, saveHistory, getServices, getUserHistory} from "../models/service.m";
 import dotenv from 'dotenv'
 dotenv.config()
 
@@ -96,7 +96,21 @@ export const _getServices = async(
     } catch (error) {
         console.error('Error in service_controllers _getServices');
         res.status(400).json({msg:'cant get services'} as ErrorMessageInterface)
+    }   
+}
+
+export const _getUserHistory = async(
+    req:Request,
+    res:Response
+) => {
+    try {
+        const {email} = req.body
+        const result = await getUserHistory(email)
+        res.json(result)
+    } catch (error) {
+        console.error('Error in service_controllers _getUserHistory');
+        res.status(400).json({msg:'cant get user history'} as ErrorMessageInterface)
     }
-   
     
+
 }

@@ -27,7 +27,7 @@ export const getAllData = async() => {
         const allDays = await db('days')
         .select('id','date','work')
         for(let i=0;i<allDays.length;i++){
-            hour = await db('hours').where({day_id:allDays[i].id}).select('time','available','notbooked','servicename','length','price')
+            hour = await db('hours').where({day_id:allDays[i].id}).select('time','available','notbooked','servicename','length','price','user_name').orderBy('time')
             day={...allDays[i], hours:hour}
             result.push(day)
         }
@@ -122,10 +122,21 @@ export const saveHistory = async(historyObj:ServiceHistory) => {
 
 export const getServices = async() => {
     try {
-        const services = await db('services').select(['servicename','length','price','comment'])
+        const services = await db('services').select(['servicename','length','price','comment']).orderBy('servicename')
         return services
     } catch (error) {
         console.error('Error in service M getServices');
         throw new Error('Cant get list of services')
+    }
+}
+
+export const getUserHistory = async(email:string) => {
+    try {
+        const user = await db('users').select('id').where({email}).first()
+        const result = await db('service_history').select('date','servicename','comment').where({user_id:user.id})
+        return result
+    } catch (error) {
+        console.error('Error in service M getUserHistory');
+        throw new Error('Cant get User History')
     }
 }
