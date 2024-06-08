@@ -72,7 +72,7 @@ import ServiceList from './ServiceList';
           placeholderText = 'Click to select a date'
           showIcon
           toggleCalendarOnIconClick
-          dateFormat="dd/MM/yyyy"
+          dateFormat="dd.MM.yyyy"
           selected={selectedDate} 
           onChange={(date:Date)=>{setSelectedDate(date); setSelectedHour(null)}}
           inline
@@ -93,7 +93,7 @@ import ServiceList from './ServiceList';
         <ul>
             {filterDays()?.map((day,index)=>(
                 <li key={index}>
-                    {dayjs(day.date).format('DD/MM/YYYY')} - Hours: {day.hours.filter(hour=> hour.available).map(hour => {
+                    {dayjs(day.date).format('DD.MM.YYYY')} - Hours: {day.hours.filter(hour=> hour.available).map(hour => {
                       return <Button key={hour.time} onClick={()=>setSelectedHour(hour.time)}>{hour.time}</Button>})}
                 </li>
                
