@@ -80,7 +80,7 @@ import { DayType } from './adminSlice';
           placeholderText = 'Click to select a date'
           showIcon
           toggleCalendarOnIconClick
-          dateFormat="dd/MM/yyyy"
+          dateFormat="dd.MM.yyyy"
           selected={selectedDate} 
           onChange={(date:Date)=>setSelectedDate(date)}
           inline
@@ -104,6 +104,7 @@ import { DayType } from './adminSlice';
 
     const filterDays = () => {
       console.log('3');
+      
       return days.filter(day=> day.date === selectedDate?.toLocaleDateString())
     }
 
