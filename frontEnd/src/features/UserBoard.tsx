@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { DayType } from './adminSlice';
 import ServiceList from './ServiceList';
 import { UserboardProps } from '../../types/consts';
+import sciccors from '../assets/scissors_11631186.png'
 
 
   const UserBoard = ({setDate,setTime,setServicename,setReserved}:UserboardProps) => {
@@ -50,7 +51,7 @@ import { UserboardProps } from '../../types/consts';
         case 'loading':
           return (
             <div className="scissors-animation">
-              <img className="scissors" src="..//src//assets//scissors_11631186.png" alt="Scissors"/>
+              <img className="scissors" src={sciccors} alt="Scissors"/>
               <h4>Loading...</h4>
               <div className="object"></div>
             </div>
