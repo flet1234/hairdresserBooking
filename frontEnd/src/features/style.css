@@ -1,0 +1,193 @@
+/* styles.css */
+
+/* Common styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+h2, h3 {
+    color: #333;
+    text-align: center;
+}
+
+h2 {
+    margin-top: 20px;
+}
+
+h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+
+/* Button styles */
+button {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+}
+
+button:hover{
+    background-color: #2980b9;
+}
+
+button a{
+    color: white;
+    text-decoration: none;
+}
+
+button a:hover{
+    text-decoration: underline;
+}
+
+/* User and history styles */
+.user-history, .users {
+    margin: 20px auto;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+}
+
+.user-history ul, .users ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.user-history li, .users li {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.user-history h5 {
+    margin: 0;
+    color: #777;
+    font-weight: normal;
+    text-align: right;
+}
+
+.user {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.user:last-child {
+    border-bottom: none;
+}
+
+.user span {
+    color: #777;
+}
+
+/* Header styles */
+header {
+    padding: 20px;
+    background-color: #3498db;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header button, header .MuiButton-root {
+    margin: 0 10px;
+}
+
+/* Form styles */
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+form .MuiTextField-root {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.message {
+    text-align: center;
+    color: red;
+    margin-top: 10px;
+}
+
+.userboard-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.date-picker-container {
+    max-width: 600px;
+    width: 100%;
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.admin-board-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.edit-mode {
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+input {
+    margin-right: 10px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.edit-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 2px;
+}

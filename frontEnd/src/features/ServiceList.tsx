@@ -1,11 +1,9 @@
-import { Button } from "@mui/material"
 import axios from "axios"
 import { useEffect, useState } from "react"
 import { ServiceHistory, ServiceInterface, ServiceListProps } from "../../types/consts"
 import { useAppDispatch, useAppSelector } from "../store/store"
 import { bookHour, transfromServiceLenghtTotNumber,addTime } from "./adminSlice"
-
-
+import './style.css'
 
 const ServiceList = ({date,time, setTime ,setDate,setServicename,setReserved}:ServiceListProps) =>{
     const [services, setServices] = useState<ServiceInterface[]|null>(null)
@@ -62,14 +60,14 @@ const ServiceList = ({date,time, setTime ,setDate,setServicename,setReserved}:Se
                         <li>Time: {service.length}</li>
                         <li>Price: {service.price}</li>
                         {service.comment ? <li>{service.comment}</li> : ''}
-                        <li>{checkIfTimeIsEnough(date,time,service.length) ? <Button onClick={()=>{
+                        <li>{checkIfTimeIsEnough(date,time,service.length) ? <button onClick={()=>{
                             dispatch(bookHour({date,hour:{time,servicename:service.servicename,length:service.length,price:service.price,user_name,notbooked:false, available:false}}))
                             applyService({user_email,date:dateTime,servicename:service.servicename,comment:service.comment})
                             setDate(date)
                             setTime(time)
                             setServicename(service.servicename)
                         }}
-                            >Apply</Button> : 'Not enough time!'}</li>
+                            >Apply</button> : 'Not enough time!'}</li>
                     </ul>
                 )
             })}

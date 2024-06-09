@@ -6,7 +6,7 @@ import Header from './features/Header'
 import LoginRegister from './features/LoginRegister'
 import Auth from './auth/Auth'
 import {AuthContextInterface, ProviderProps, UserResponse} from '../types/consts'
-import './App.css'
+// import './App.css'
 import CheckAdmin from './auth/CheckAdmin'
 import AdminBoard from './features/AdminBoard'
 import Success from './features/Success'
@@ -38,7 +38,6 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <div>
           <CheckAdmin>
           <Header/>
           <Routes>
@@ -49,7 +48,6 @@ function App() {
             <Route path='/admindashboard' element={<Auth><AdminBoard/></Auth>}/>
           </Routes>
           </CheckAdmin>
-        </div>
       </AuthProvider>
     </>
   )

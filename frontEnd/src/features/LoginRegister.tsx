@@ -1,9 +1,11 @@
 import { useState} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {Box ,TextField, Button} from '@mui/material'
+import {TextField} from '@mui/material'
 import { useAuthContext } from '../App'
 import { LoginRegisterProps } from "../../types/consts";
+import './style.css'
+
 
 const LoginRegister = ({page}:LoginRegisterProps) => {
 
@@ -58,14 +60,14 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
 
     return (
         <>
-            <h2>{page}</h2>
-            <Box component={'form'} sx={{m:1}} noValidate autoComplete='off'>
+            <h2>{page === 'login' ? 'Login' : 'Register'}</h2>
+            <form>
                 <TextField sx={{m:1}} id='email' type="email" label='Enter your email' variant="outlined" onChange={(e)=>setEmail(e.target.value)} />
                 <TextField sx={{m:1}} id='password' type="password" label='Enter your password' variant="outlined" onChange={(e)=>setPassword(e.target.value)} />
                 {page === 'login' ? <></> : <TextField sx={{m:1}} id='name' type="name" label='Enter your name' variant="outlined" onChange={(e)=>setName(e.target.value)} />}
-            </Box>   
-            <Button variant="contained" onClick={loginRegister}>{page}</Button>
-            <div>{message}</div>
+            </form>   
+            <button onClick={loginRegister}>{page}</button>
+            <div className="message">{message}</div>
         </>
     )
 }

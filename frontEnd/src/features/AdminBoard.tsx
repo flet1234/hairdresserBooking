@@ -1,8 +1,8 @@
 import { useEffect,useState } from 'react';
 import { createWorkDay, getAllData, saveDay, editHour} from './adminSlice';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { Button } from '@mui/material';
 import './dashboard.css'
+import './style.css'
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -70,13 +70,20 @@ import { DayType } from './adminSlice';
       switch (message) {
         case 'uploading':
           
-          return 'Loading'
+          return  (
+                  <div className="loading-animation">
+                    <img className="loading" src="..\src\assets\loading_248958.png" alt="Load image"/>
+                    <div className="objectload"></div>
+                  </div>
+                  )
         case 'rejected':
           
           return 'Error!'
     
         default:
-          return 'All good'
+          return (
+            <div style={{height:'20px'}}></div>
+            )
       }
     }
     
@@ -84,7 +91,13 @@ import { DayType } from './adminSlice';
       switch (status) {
         case 'loading':
           
-          return 'Loading'
+          return (
+            <div className="scissors-animation">
+              <img className="scissors" src="..\src\assets\scissors_11631186.png" alt="Scissors"/>
+              <h4>Loading...</h4>
+              <div className="object"></div>
+            </div>
+            )
         case 'rejected':
           
           return 'Error!'
@@ -121,38 +134,40 @@ import { DayType } from './adminSlice';
     }
 
     return (
-      <>
-      {dayFetchLoad()}
-      <br />
-      {!checkDay()? <>
-      <Button onClick={handleCreateWorkDay}>Create work day for this date</Button> <br />
-        <label>Start hour: </label>
-        <input
-          type='number'
-          onChange={(e) => setStartHour(Number(e.target.value))}
-          max={23}
-          min={0}
-        />
-        <label>End hour: </label>
-        <input
-          type='number'
-          max={23}
-          min={0}
-          onChange={(e) => setEndHour(Number(e.target.value))}
-        />
-      </>
-  : ''}
+      <div className='admin-board-container'>
+        {dayFetchLoad()}
+        <br />
+        {!checkDay()? 
+        <>
+          <button onClick={handleCreateWorkDay}>Create work day for this date</button> <br />
+          <label>Start hour: </label>
+          <input
+            type='number'
+            onChange={(e) => setStartHour(Number(e.target.value))}
+            max={23}
+            min={0}
+          />
+          <label>End hour: </label>
+          <input
+            type='number'
+            max={23}
+            min={0}
+            onChange={(e) => setEndHour(Number(e.target.value))}
+          />
+        </>
+        : ''}
         <ul>
             {filterDays()?.map((day,index)=>(
                 <div key={index}>
                   <h4>{dayjs(day.date).format('DD/MM/YYYY')}</h4>
+                  {loadImage()}
                     <ul> 
                     {day.hours.map((hour, i) => {
                       return (
                         <li key={i}>
                           {editMode === i ? (
-                            <>
-                              {hour.time} 
+                            <div className='edit-container'>
+                              <h4>{hour.time}</h4>
                               Available: {hour.available ? 
                               <input type='checkbox' defaultChecked onChange={(e)=>sethAvailable(e.target.checked)}/> : 
                               <input type='checkbox' onChange={(e)=>sethAvailable(e.target.checked)}/>}
@@ -163,17 +178,17 @@ import { DayType } from './adminSlice';
                               Servicename:<input defaultValue={hour.servicename} type='text' onChange={(e)=>sethServicename(e.target.value)}/>
                               Length(hours):<input defaultValue={hour.length} type='number' onChange={(e)=>sethLenght(()=>{return `${e.target.value}:00:00`})}/>
                               Price:<input defaultValue={hour.price} type='number' onChange={(e)=>sethPrice(Number(e.target.value))}/>
-                              <Button onClick={()=>{
+                              <button onClick={()=>{
                                setEditMode(null); dispatch(editHour({
                                 date:day.date, hour:{
                                   time:hour.time, available:hAvailable,notbooked:hNotbooked,price:hPrice,servicename:hServicename,
                                   user_name:hUser_name,length:hLength
                                   }
-                                }))}}>Save Changes</Button><Button onClick={()=>setEditMode(null)}>Cancel</Button>
-                            </>
+                                }))}}>Save Changes</button><button onClick={()=>setEditMode(null)}>Cancel</button>
+                            </div>
                           ) : (
                             <>
-                              {hour.time}: {hour.available ? 'Available' : 'Not available'} | {hour.notbooked ? 'Not booked' : 'Booked'} | Length:  {hour.length} | Price: {hour.price} | Service: {hour.servicename} | Username: {hour.user_name}<Button onClick={()=>{
+                              <h4>{hour.time}:</h4>{hour.available ? 'Available' : 'Not available'} | {hour.notbooked ? 'Not booked' : 'Booked'} | Length:  {hour.length} | Price: {hour.price} | Service: {hour.servicename} | Username: {hour.user_name}<button onClick={()=>{
                                 sethAvailable(hour.available)
                                 sethNotbooked(hour.notbooked)
                                 sethPrice(hour.price)
@@ -182,7 +197,7 @@ import { DayType } from './adminSlice';
                                 sethUser_name(hour.user_name)
                                 setEditMode(i)
                               }
-                              }>Edit</Button>
+                              }>Edit</button>
                             </>
                           )}
                         </li>
@@ -192,8 +207,7 @@ import { DayType } from './adminSlice';
                 </div>
             ))}
         </ul> 
-        {loadImage()}
-      </>
+      </div>
     )
   }
   

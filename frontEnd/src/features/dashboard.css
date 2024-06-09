@@ -7,3 +7,58 @@
 .booked_days{
     background-color: rgb(255, 119, 0);
 }
+
+.scissors-animation {
+    position: relative;
+    height: 250px;
+  }
+  
+  .scissors {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px; /* Adjust as needed */
+    animation: scissorsAnimation .45s infinite; /* Adjust duration as needed */
+  }
+  
+  .object {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px; /* Adjust as needed */
+    height: 150px; /* Adjust as needed */
+  }
+  
+  @keyframes scissorsAnimation {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    50% {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+  }
+
+  
+.loading-animation {
+    position: relative;
+  }
+
+  .loading {
+    height: 30px; /* Adjust as needed */
+    animation: spin 2s linear infinite, fade 2s ease-out infinite alternate;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @keyframes fade {
+    0% { opacity: 1; }
+    100% { opacity: 0.3; }
+  }

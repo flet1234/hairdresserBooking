@@ -2,8 +2,8 @@ import { useState, useEffect} from "react";
 import axios from "axios";
 import { useAuthContext } from "../App";
 import { UserHistoryInterface, UserInfo } from "../../types/consts";
-import { Button } from "@mui/material";
 import dayjs from "dayjs";
+import './style.css'
 
 
 const Home = () => {
@@ -50,24 +50,32 @@ const Home = () => {
         <>
             <h2>Home</h2>
             <h2>Welcome {name}</h2>
-            <Button onClick={()=>getUserHistory()}>Show my history</Button>
-            {userHistory.map((item,i)=>{
-                return (
-                    <div key={i}>
-                        <h5>{dayjs(item.date).format('DD/MM/YYYY')}</h5>
-                        <ul>
-                            <li> Service: {item.servicename}</li>
-                            <li> Comment: {item.comment}</li>
-                        </ul>
-                       
+            <button onClick={()=>getUserHistory()}>Show my history</button>
+            <div className="user-history">
+                {userHistory.map((item,i)=>{
+                    return (
+                        <div key={i}>
+                            <h5>{dayjs(item.date).format('DD/MM/YYYY')}</h5>
+                            <ul>
+                                <li> Service: {item.servicename}</li>
+                                <li> Comment: {item.comment}</li>
+                            </ul>
                         
-                    </div>
-                )
-            })}
+                            
+                        </div>
+                    )
+                })}
+            </div>
             <h3>Users:</h3>
-            {users.map((user:UserInfo)=>{
-                return <div key={user.id}>{user.id} {user.name} {user.email}</div>
-            })}
+            <div className="users">
+                {users.map((user:UserInfo)=>{
+                    return <div key={user.id} className="user">
+                                <span>{user.id}</span>
+                                <span>{user.name}</span>
+                                <span>{user.email}</span>
+                            </div>
+                })}
+            </div>
         </>
     )
 }

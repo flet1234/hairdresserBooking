@@ -1,9 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Stack } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../store/store";
 import { toggleAdmin } from "./adminSlice";
 import axios from "axios";
 import { useAuthContext } from "../App";
+import './style.css'
 
 
 const Header = () => {
@@ -15,9 +15,9 @@ const Header = () => {
 
     const check = () => {
         if(isAdmin){
-            return <Button><Link to='/admindashboard'>AdminDash</Link></Button>
+            return <button><Link to='/admindashboard'>AdminDash</Link></button>
         } else {
-            return <Button><Link to='/dashboard'>Dashboard</Link></Button>
+            return <button><Link to='/dashboard'>Dashboard</Link></button>
         }
     }
     
@@ -46,11 +46,11 @@ const Header = () => {
 
     const dashboard = check()
     return (
-        <Stack spacing={2} direction={'row'}>
-            <Button><Link to='/'>Home</Link></Button>
-            {email ? <Button onClick={()=>logout()}>Log out</Button> : <><Button><Link to='/login'>Login</Link> </Button><Button><Link to='/register'>Register</Link></Button></>}
+        <header>
+            <button><Link to='/'>Home</Link></button>
+            {email ? <button onClick={()=>logout()}>Log out</button> : <><button><Link to='/login'>Login</Link> </button><button><Link to='/register'>Register</Link></button></>}
             {dashboard}
-        </Stack>
+        </header>
     )
 }
 

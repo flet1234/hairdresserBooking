@@ -1,8 +1,8 @@
 import { useEffect,useState } from 'react';
 import { getAllData, saveDay} from './adminSlice';
 import { useAppDispatch, useAppSelector } from '../store/store';
-import { Button } from '@mui/material';
 import './dashboard.css'
+import './style.css'
 import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -17,7 +17,6 @@ import { UserboardProps } from '../../types/consts';
     const [selectedHour,setSelectedHour] = useState<string | null>(null)
     const days = useAppSelector((state)=>state.adminReducer.days)
     const status = useAppSelector((state)=>state.adminReducer.status)
-    const message = useAppSelector((state)=> state.adminReducer.message)
     const dispatch=useAppDispatch()
 
     useEffect(()=>{
@@ -45,26 +44,17 @@ import { UserboardProps } from '../../types/consts';
         "available_days" : available_days
       }
     ];
-
-    const loadImage = () => {
-      switch (message) {
-        case 'uploading':
-          
-          return 'Loading'
-        case 'rejected':
-          
-          return 'Error!'
-    
-        default:
-          return 'All good'
-      }
-    }
     
     const dayFetchLoad = () => {
       switch (status) {
         case 'loading':
-          
-          return 'Loading'
+          return (
+            <div className="scissors-animation">
+              <img className="scissors" src="..\src\assets\scissors_11631186.png" alt="Scissors"/>
+              <h4>Loading...</h4>
+              <div className="object"></div>
+            </div>
+            )
         case 'rejected':
           
           return 'Error!'
@@ -90,20 +80,19 @@ import { UserboardProps } from '../../types/consts';
     }
 
     return (
-      <>
+      <div className='date-picker-container'>
       {dayFetchLoad()}
         <ul>
             {filterDays()?.map((day,index)=>(
                 <li key={index}>
                     {dayjs(day.date).format('DD/MM/YYYY')} - Hours: {day.hours.filter(hour=> hour.available).map(hour => {
-                      return <Button key={hour.time} onClick={()=>setSelectedHour(hour.time)}>{hour.time}</Button>})}
+                      return <button style={{display:'inline',marginLeft:'2px'}} key={hour.time} onClick={()=>setSelectedHour(hour.time)}>{hour.time}</button>})}
                 </li>
                
             ))}
         </ul> 
-        {loadImage()} <br />
         {!selectedHour ? '' : !selectedDate ? '' : <ServiceList setReserved={setReserved} setDate={setDate} setServicename={setServicename} setTime={setTime} time={selectedHour} date={selectedDate.toLocaleDateString('en-US', { year: 'numeric', month: '2-digit', day: '2-digit' })}/>}
-      </>
+      </div>
     )
   }
   

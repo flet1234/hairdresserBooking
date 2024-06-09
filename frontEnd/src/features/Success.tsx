@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import dayjs from "dayjs"
 import UserBoard from "./UserBoard"
+import './style.css'
 
 
 const Success = () => {
@@ -38,22 +39,20 @@ const Success = () => {
 
     const showSuccess = () => {
         return (
-            <>
-                <div>
+                <div className="userboard-container">
                     <h1>Reserved:</h1>
                     <h3>Date:{dayjs(date).format('DD/MM/YYYY')} in {time}</h3>
                     <h4>Service:{servicename}</h4>
                     <p>You will be redirected in {timer} seconds</p>
                 </div>
-            </>
         )
     }
 
     return (
-        <>
+        <div className="userboard-container">
             {!reserved ? <UserBoard setDate={setDate} setServicename={setServicename} setTime={setTime} setReserved={setReserved}/> :
             showSuccess()}
-        </>
+        </div>
     )
 }
 
