@@ -75,7 +75,7 @@ export const _login = async(
         })
     } catch (error) {
         console.error('Error in controllers _login', error);
-        res.status(500).json({msg:'Something wen wrong'})
+        res.status(500).json({msg:'Something went wrong'})
     }
 }
 
