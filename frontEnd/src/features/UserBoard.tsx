@@ -9,7 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import { DayType } from './adminSlice';
 import ServiceList from './ServiceList';
 import { UserboardProps } from '../../types/consts';
-import sciccors from '../assets/scissors_11631186.png'
+import sciccors from '..\\assets\\scissors_11631186.png'
 
 
   const UserBoard = ({setDate,setTime,setServicename,setReserved}:UserboardProps) => {
