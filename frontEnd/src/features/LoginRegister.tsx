@@ -65,7 +65,8 @@ const LoginRegister = ({page}:LoginRegisterProps) => {
                 <TextField sx={{m:1}} id='email' type="email" label='Enter your email' variant="outlined" onChange={(e)=>setEmail(e.target.value)} />
                 <TextField sx={{m:1}} id='password' type="password" label='Enter your password' variant="outlined" onChange={(e)=>setPassword(e.target.value)} />
                 {page === 'login' ? <></> : <TextField sx={{m:1}} id='name' type="name" label='Enter your name' variant="outlined" onChange={(e)=>setName(e.target.value)} />}
-              <h5>Demo admin account: email admin@mail.com password 1234</h5>       
+              <h5>Demo admin account: email admin@mail.com password 1234</h5>      
+              <h5>Demo user account: email user@mail.com password 1234</h5>      
             </form>   
             <button onClick={loginRegister}>{page}</button>
             <div className="message">{message}</div>
