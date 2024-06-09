@@ -72,7 +72,7 @@ import { DayType } from './adminSlice';
           
           return  (
                   <div className="loading-animation">
-                    <img className="loading" src="..\src\assets\loading_248958.png" alt="Load image"/>
+                    <img className="loading" src="../src/assets/loading_248958.png" alt="Load image"/>
                     <div className="objectload"></div>
                   </div>
                   )
@@ -93,7 +93,7 @@ import { DayType } from './adminSlice';
           
           return (
             <div className="scissors-animation">
-              <img className="scissors" src="..\src\assets\scissors_11631186.png" alt="Scissors"/>
+              <img className="scissors" src="../src/assets/scissors_11631186.png" alt="Scissors"/>
               <h4>Loading...</h4>
               <div className="object"></div>
             </div>
