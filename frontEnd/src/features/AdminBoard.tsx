@@ -7,8 +7,7 @@ import dayjs from 'dayjs';
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { DayType } from './adminSlice';
-import sciccors from '../assets/scissors_11631186.png'
-import loading from '../assets/loading_248958.png'
+
 
   const AdminBoard = () => {
 
@@ -73,7 +72,7 @@ import loading from '../assets/loading_248958.png'
           
           return  (
                   <div className="loading-animation">
-                    <img className="loading" src={loading} alt="Load image"/>
+                    <img className="loading" src='https://cdn.pixabay.com/photo/2013/07/12/12/19/colors-145558_1280.png' alt="Load image"/>
                     <div className="objectload"></div>
                   </div>
                   )
@@ -94,7 +93,7 @@ import loading from '../assets/loading_248958.png'
           
           return (
             <div className="scissors-animation">
-              <img className="scissors" src={sciccors} alt="Scissors"/>
+              <img className="scissors" src='https://cdn.pixabay.com/photo/2012/04/01/13/08/scissors-23412_960_720.png' alt="Scissors"/>
               <h4>Loading...</h4>
               <div className="object"></div>
             </div>

@@ -10,7 +10,7 @@
 
 .scissors-animation {
     position: relative;
-    height: 250px;
+    height: 233px;
   }
   
   .scissors {
@@ -18,7 +18,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px; /* Adjust as needed */
+    width: 100px; /* Adjust as needed */
     animation: scissorsAnimation .45s infinite; /* Adjust duration as needed */
   }
   
